@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
 use App\Models\Product;
+use App\Services\CartItemService;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 
@@ -11,49 +11,34 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
     private CartService $service;
+    private CartItemService $cartItemService;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService, CartItemService $cartItemService)
     {
         $this->service = $cartService;
+        $this->cartItemService = $cartItemService;
     }
 
     public function cartList()
     {
-        $cartItems = Product::all();
-        // dd($cartItems);
-        return $cartItems;
+       return $this->service->getAll();
     }
 
-
-    public function addToCart(Request $request)
+    public function viewPrice(int $id)
     {
+        return $this->cartItemService->groupBy($id);
 
     }
 
-    public function updateCart(Request $request)
+    public function removeCart(int $id): string
     {
-
+        $this->cartItemService->deleteAllId($id);
+        $this->service->delete($id);
+        return "success";
     }
 
-    public function removeCart(Request $request)
+    public function createCart()
     {
-
-
-        $success = "success";
-        return $success;
-    }
-
-    public function clearAllCart()
-    {
-
-        Product::clear();
-
-        session()->flash('success', 'All Item Cart Clear Successfully !');
-
-        $success = "success";
-        return $success;
-    }
-    public function createCart(){
         return $this->service->createCart();
     }
 

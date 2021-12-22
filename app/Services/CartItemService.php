@@ -13,11 +13,29 @@ class CartItemService
         $this->cartItemRepository = $cartItemRepository;
     }
 
-    public function addCart($cart_id, $product_id, $quantity, $price)
+    public function addCart($cart_id, $product, $quantity)
     {
-        $this->cartItemRepository->add($cart_id, $product_id, $quantity, $price);
+        return $this->cartItemRepository->add($cart_id, $product, $quantity);
     }
-    public function editCart($id, $product_id, $quantity){
-        $this->cartItemRepository->edit($id, $product_id, $quantity);
+
+    public function editCart($id, $product_id, $quantity)
+    {
+        return $this->cartItemRepository->edit($id, $product_id, $quantity);
+    }
+
+    public function find(int $id)
+    {
+        return $this->cartItemRepository->find($id);
+    }
+
+    public function deleteAllId(int $id)
+    {
+        return $this->cartItemRepository->deleteAllId($id);
+    }
+    public function getAll(){
+        return $this->cartItemRepository->getAll();
+    }
+    public function groupBy(int $id){
+        return $this->cartItemRepository->groupBy($id);
     }
 }

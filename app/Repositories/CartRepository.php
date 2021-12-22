@@ -3,15 +3,38 @@
 namespace App\Repositories;
 
 use App\Models\Cart;
-use App\Models\Cart_Item;
-
 
 class CartRepository
 {
     function create()
     {
-        $create = Cart::create();
+        return Cart::create([
+            'price' => 0
+        ]);
 
     }
 
+    public function find(int $id)
+    {
+        return Cart::find($id);
+    }
+
+    public function delete(int $id)
+    {
+        return Cart::where('id', $id)->delete();
+    }
+
+    function createwithId(int $id)
+    {
+        return Cart::create([
+            'id' => $id,
+            'price' => 0
+        ]);
+
+    }
+
+    public function getAll()
+    {
+        return Cart::all();
+    }
 }
