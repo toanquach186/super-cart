@@ -19,14 +19,27 @@ class CartController extends Controller
         $this->cartItemService = $cartItemService;
     }
 
-    public function cartList()
+    public function cartList(): \Illuminate\Database\Eloquent\Collection|array
     {
-       return $this->service->getAll();
+        return $this->service->getAll();
     }
 
     public function viewPrice(int $id)
     {
         return $this->cartItemService->groupBy($id);
+
+    }
+
+    public function submit(int $id): float|int
+    {
+        $cartItem = $this->cartItemService->findCartId($id);
+        $price=0;
+        foreach ($cartItem as $item) {
+            $price += $item['price']*$item['quantity'] ;
+        }
+        $this->service->updatePrice($id, $price);
+
+        return $price;
 
     }
 

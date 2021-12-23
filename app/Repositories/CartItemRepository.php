@@ -6,12 +6,13 @@ use App\Models\CartItem;
 
 class CartItemRepository
 {
-    function add($cart_id, $product_id, $quantity)
+    function add($cart_id, $product, $quantity)
     {
         return CartItem::create([
             'cart_id' => $cart_id,
-            'product_id' => $product_id,
+            'product_id' => $product['id'],
             'quantity' => $quantity,
+            'price' => $product['price']
         ]);
     }
 
@@ -21,9 +22,14 @@ class CartItemRepository
             ->update(['product_id' => $product_id, 'quantity' => $quantity]);
     }
 
-    public function find(int $id)
+    public function findCartItemId(int $id)
     {
         return CartItem::findOrFail($id);
+    }
+
+    public function findCartId(int $id)
+    {
+        return CartItem::where('cart_id',$id)->get();
     }
 
     public function deleteAllId(int $id)
@@ -31,7 +37,12 @@ class CartItemRepository
         return CartItem::where('cart_id', $id)->delete();
     }
 
-    public function getAll()
+    public function delete(int $id)
+    {
+        return CartItem::where('id', $id)->delete();
+    }
+
+    public function getAll(): \Illuminate\Database\Eloquent\Collection|array
     {
         return CartItem::all();
     }

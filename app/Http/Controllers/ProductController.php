@@ -15,7 +15,7 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function productList()
+    public function productList(): \Illuminate\Database\Eloquent\Collection|array
     {
 
         return $this->productService->all();

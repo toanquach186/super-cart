@@ -17,7 +17,8 @@ class ProductService
     {
         return $this->productRepository->find($id);
     }
-    public function all(){
+    public function all(): \Illuminate\Database\Eloquent\Collection|array
+    {
         return $this->productRepository->all();
     }
 }

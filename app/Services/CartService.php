@@ -18,7 +18,7 @@ class CartService
         return $this->repository->create();
     }
 
-    public function find(int $id)
+    public function find(int $id): \App\Models\Cart
     {
         return $this->repository->find($id);
     }
@@ -27,11 +27,11 @@ class CartService
         return $this->repository->delete($id);
     }
 
-    public function createWithId(int $id){
-        return $this->repository->createwithId($id);
-    }
-
-    public function getAll(){
+    public function getAll(): \Illuminate\Database\Eloquent\Collection|array
+    {
         return $this->repository->getAll();
+    }
+    public function updatePrice(int $id, $price){
+        return $this->repository->updatePrice($id, $price);
     }
 }

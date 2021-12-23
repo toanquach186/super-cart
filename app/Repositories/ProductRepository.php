@@ -8,7 +8,7 @@ class ProductRepository
 {
     public function find(int $id)
     {
-        return Product::findOrFail($id);
+        return Product::find($id);
     }
 
     public function all(): \Illuminate\Database\Eloquent\Collection|array

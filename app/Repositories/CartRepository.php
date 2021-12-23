@@ -9,12 +9,12 @@ class CartRepository
     function create()
     {
         return Cart::create([
-            'price' => 0
+            'total_price' => 0
         ]);
 
     }
 
-    public function find(int $id)
+    public function find(int $id):Cart
     {
         return Cart::find($id);
     }
@@ -24,17 +24,13 @@ class CartRepository
         return Cart::where('id', $id)->delete();
     }
 
-    function createwithId(int $id)
-    {
-        return Cart::create([
-            'id' => $id,
-            'price' => 0
-        ]);
-
-    }
-
-    public function getAll()
+    public function getAll(): array|\Illuminate\Database\Eloquent\Collection
     {
         return Cart::all();
+    }
+
+    public function updatePrice($id, $price)
+    {
+        return Cart::where('id',$id)->update(['total_price' => $price]);
     }
 }

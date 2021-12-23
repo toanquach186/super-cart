@@ -35,39 +35,17 @@ class CartItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($idCart, $idProduct, $quantity)
+    public function addToCart($idCart, $idProduct, $quantity)
     {
         $product = $this->productService->find($idProduct);
         $cart = $this->cartService->find($idCart);
         if ($cart != null) {
-            return $this->cartItemService->addCart($cart->id, $product->id, $quantity);
+            return $this->cartItemService->addCart($cart->id, $product, $quantity);
         } else {
-            $this->cartService->createWithId($idCart);
-            $cart2=$this->cartService->find($idCart);
-            return $this->cartItemService->addCart($cart2->id, $product->id, $quantity);
+            $this->cartService->createCart();
+            $cart2 = $this->cartService->find($idCart);
+            return $this->cartItemService->addCart($cart2->id, $product, $quantity);
         }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -78,7 +56,7 @@ class CartItemController extends Controller
      */
     public function edit(int $id, int $product_id, int $quantity): \Illuminate\Http\Response|string
     {
-        $cartItem = $this->cartItemService->find($id);
+        $cartItem = $this->cartItemService->findCartItemId($id);
         $this->cartItemService->editCart($cartItem->id, $product_id, $quantity);
         return response()->json([
             'product_id' => $product_id,
@@ -87,25 +65,13 @@ class CartItemController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        $cartItem= $this->cartItemService->delete($id);
     }
 }
