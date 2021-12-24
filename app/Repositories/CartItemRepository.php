@@ -2,29 +2,31 @@
 
 namespace App\Repositories;
 
+use App\Models\Cart;
 use App\Models\CartItem;
+use phpDocumentor\Reflection\Types\Array_;
 
 class CartItemRepository
 {
-    function add($cart_id, $product, $quantity)
+    function add($cart, $product, $quantity):CartItem
     {
         return CartItem::create([
-            'cart_id' => $cart_id,
+            'cart_id' => $cart['id'],
             'product_id' => $product['id'],
             'quantity' => $quantity,
             'price' => $product['price']
         ]);
     }
 
-    function edit($id, $product_id, $quantity)
+    function edit($id, $product_id, $quantity):bool
     {
-        return CartItem::where('id', $id)
+        return CartItem::where('id', $id['id'])
             ->update(['product_id' => $product_id, 'quantity' => $quantity]);
     }
 
-    public function findCartItemId(int $id)
+    public function findCartItemId(int $id):CartItem
     {
-        return CartItem::findOrFail($id);
+        return CartItem::find($id);
     }
 
     public function findCartId(int $id)
@@ -32,7 +34,7 @@ class CartItemRepository
         return CartItem::where('cart_id',$id)->get();
     }
 
-    public function deleteAllId(int $id)
+    public function deleteAllId(int $id):CartItem
     {
         return CartItem::where('cart_id', $id)->delete();
     }

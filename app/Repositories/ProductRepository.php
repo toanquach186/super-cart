@@ -6,7 +6,7 @@ use App\Models\Product;
 
 class ProductRepository
 {
-    public function find(int $id)
+    public function find(int $id):Product
     {
         return Product::find($id);
     }

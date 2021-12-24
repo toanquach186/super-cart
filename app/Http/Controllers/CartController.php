@@ -24,35 +24,27 @@ class CartController extends Controller
         return $this->service->getAll();
     }
 
-    public function viewPrice(int $id)
-    {
-        return $this->cartItemService->groupBy($id);
-
-    }
 
     public function submit(int $id): float|int
     {
-        $cartItem = $this->cartItemService->findCartId($id);
-        $price=0;
-        foreach ($cartItem as $item) {
-            $price += $item['price']*$item['quantity'] ;
-        }
+        $price = $this->service->calculate($id);
         $this->service->updatePrice($id, $price);
-
         return $price;
-
     }
 
     public function removeCart(int $id): string
     {
-        $this->cartItemService->deleteAllId($id);
         $this->service->delete($id);
         return "success";
     }
 
-    public function createCart()
+    public function createCart(): \App\Models\Cart
     {
         return $this->service->createCart();
+    }
+    public function viewACart($id)
+    {
+        return $this->cartItemService->findCartId($id);
     }
 
 }

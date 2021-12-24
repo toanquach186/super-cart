@@ -17,7 +17,6 @@ class ProductController extends Controller
 
     public function productList(): \Illuminate\Database\Eloquent\Collection|array
     {
-
         return $this->productService->all();
     }
 }

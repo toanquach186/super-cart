@@ -23,41 +23,27 @@ class CartItemController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return array|\Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
         return $this->cartItemService->getAll();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function addToCart($idCart, $idProduct, $quantity)
+    public function addToCart($idCart, $idProduct, $quantity): \App\Models\CartItem
     {
-        $product = $this->productService->find($idProduct);
-        $cart = $this->cartService->find($idCart);
-        if ($cart != null) {
-            return $this->cartItemService->addCart($cart->id, $product, $quantity);
-        } else {
-            $this->cartService->createCart();
-            $cart2 = $this->cartService->find($idCart);
-            return $this->cartItemService->addCart($cart2->id, $product, $quantity);
-        }
+        return $this->cartItemService->addCart($idCart, $idProduct, $quantity);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(int $id, int $product_id, int $quantity): \Illuminate\Http\Response|string
+    public function edit(int $id, int $product_id, int $quantity): \Illuminate\Http\JsonResponse
     {
-        $cartItem = $this->cartItemService->findCartItemId($id);
-        $this->cartItemService->editCart($cartItem->id, $product_id, $quantity);
+        $this->cartItemService->editCart($id, $product_id, $quantity);
         return response()->json([
             'product_id' => $product_id,
             'quantity' => $quantity
@@ -68,10 +54,13 @@ class CartItemController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $id)
+    public function destroy(int $id): \Illuminate\Http\JsonResponse
     {
-        $cartItem= $this->cartItemService->delete($id);
+        $this->cartItemService->delete($id);
+        return response()->json([
+            'deleted cart-item-id'=>$id
+        ]);
     }
 }
