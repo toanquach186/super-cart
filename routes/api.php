@@ -20,16 +20,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/', [ProductController::class, 'productList'])->name('products.list');
-Route::get('cart-item', [CartItemController::class, 'index'])->name('cart.list');
+
+Route::get('cart-all-item', [CartItemController::class, 'index'])->name('cart.list');
 Route::post('add-to-cart/{idCart}/{idProduct}/{quantity}', [CartItemController::class, 'addToCart'])->name('cart.add');
 Route::put('update-cart/{id}/{product_id}/{quantity}', [CartItemController::class, 'edit'])->name('cart.update');
 Route::delete('delete-from-cart/{id}',[CartItemController::class, 'destroy'])->name('cart.del');
 
 
 Route::delete('delete-cart/{id}', [CartController::class, 'removeCart'])->name('cart.remove');
-Route::get('cart', [CartController::class, 'cartList'])->name('cart.view');
-Route::get('viewPrice/{id}', [CartController::class, 'viewPrice'])->name('cart.viewP');
+Route::get('view-cart', [CartController::class, 'cartList'])->name('cart.view');
 Route::Post('viewPrice/{id}', [CartController::class, 'submit'])->name('cart.viewP');
+Route::get('view-a-cart/{id}', [CartController::class, 'viewACart'])->name('cart.view1');
+
 
 
 
