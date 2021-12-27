@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Services\CartItemService;
 use App\Services\CartService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class CartController extends Controller
@@ -43,7 +42,7 @@ class CartController extends Controller
         return $this->service->createCart();
     }
 
-    public function viewACart($id)
+    public function viewACart($id): \Illuminate\Database\Eloquent\Collection
     {
         return $this->cartItemService->findCartId($id);
     }

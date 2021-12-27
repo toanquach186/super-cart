@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
 
-class UsersController extends Controller
+class UserController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -21,24 +23,24 @@ class UsersController extends Controller
         //
     }
 
-    public function onLogin(Request $request): \Illuminate\Http\JsonResponse
+    public function onLogin(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = $request->validate( [
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-        if ($validator->fails()) {
+        if ($validator->erorr) {
             return response()->json(['error'=>"Login không thành công!"], 401);
         }
 
         $user = User::where("email",$request->email)->get();
-        if($user->count()>0){
+        if(Auth::attempt($validator)){
             return Response()->json(array("success"=>1,"data"=>$user[0]));
         }
         return response()->json(['error'=>"Login không thành công!"], 401);
     }
 
-    public function onRegister(Request $request): \Illuminate\Http\JsonResponse
+    public function onRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -62,5 +64,10 @@ class UsersController extends Controller
         $user = User::create($postArray);
         return Response()->json(array("success"=> 1,"data"=>$postArray ));
 
+    }
+    public function check(): int|string|null
+    {
+        $id = Auth::check();
+        return $id;
     }
 }
