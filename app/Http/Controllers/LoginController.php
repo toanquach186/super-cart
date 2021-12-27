@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
 
-class UserController extends Controller
+class LoginController extends Controller
 {
 
     /**
@@ -29,9 +29,6 @@ class UserController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-        if ($validator->erorr) {
-            return response()->json(['error'=>"Login không thành công!"], 401);
-        }
 
         $user = User::where("email",$request->email)->get();
         if(Auth::attempt($validator)){
@@ -67,7 +64,7 @@ class UserController extends Controller
     }
     public function check(): int|string|null
     {
-        $id = Auth::check();
+        $id = Auth::id();
         return $id;
     }
 }

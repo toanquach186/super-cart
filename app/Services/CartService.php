@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\CartRepository;
+use Illuminate\Support\Facades\Auth;
 
 class CartService
 {
@@ -15,7 +16,7 @@ class CartService
         $this->cartItemService = $cartItemService;
     }
 
-    public function createCart(): \App\Models\Cart
+    public function createCart()
     {
         return $this->repository->create();
     }

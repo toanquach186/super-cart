@@ -27,7 +27,7 @@ class CartItemController extends Controller
 
     public function addToCart($idCart, $idProduct, $quantity): \App\Models\CartItem
     {
-        return $this->cartItemService->addCart($idCart, $idProduct, $quantity);
+        return $this->cartItemService->addToCart($idCart, $idProduct, $quantity);
     }
 
     /**

@@ -3,21 +3,24 @@
 namespace App\Repositories;
 
 use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
 
 
 class CartRepository
 {
-    function create():Cart
+    function create()
     {
+        $id = Auth::id();
         return Cart::create([
+            'user_id' => $id,
             'total_price' => 0
         ]);
 
     }
 
-    public function find(int $id):array
+    public function find(int $id)
     {
-        return Cart::find($id)->toarray();
+        return Cart::find($id);
     }
     public function findOrFail(int $id):array
     {

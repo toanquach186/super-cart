@@ -37,7 +37,7 @@ class CartController extends Controller
         return "success";
     }
 
-    public function createCart(): \App\Models\Cart
+    public function createCart()
     {
         return $this->service->createCart();
     }
