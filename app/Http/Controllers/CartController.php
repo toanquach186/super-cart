@@ -42,6 +42,7 @@ class CartController extends Controller
     {
         return $this->service->createCart();
     }
+
     public function viewACart($id)
     {
         return $this->cartItemService->findCartId($id);

@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\Cart;
 use App\Models\CartItem;
-use phpDocumentor\Reflection\Types\Array_;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class CartItemRepository
 {
-    function add($cart, $product, $quantity):CartItem
+    function add($cart, $product, $quantity): CartItem
     {
         return CartItem::create([
             'cart_id' => $cart['id'],
@@ -24,22 +24,22 @@ class CartItemRepository
             ->update(['product_id' => $product_id, 'quantity' => $quantity]);
     }
 
-    public function findCartItemId(int $id):CartItem
+    public function findCartItemId(int $id): array
     {
-        return CartItem::find($id);
+        return CartItem::find($id)->toarray();
     }
 
-    public function findCartId(int $id)
+    public function findCartId(int $id): Collection
     {
-        return CartItem::where('cart_id',$id)->get();
+        return CartItem::where('cart_id', $id)->get();
     }
 
-    public function deleteAllId(int $id):CartItem
+    public function deleteAllId(int $id): bool
     {
         return CartItem::where('cart_id', $id)->delete();
     }
 
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
         return CartItem::where('id', $id)->delete();
     }
@@ -51,7 +51,10 @@ class CartItemRepository
 
     public function groupBy(int $id)
     {
-        return CartItem::selectRaw('cart_id,sum(price) as total')->groupBy('cart_id')->having('cart_id', '=', $id)->get();
+        return CartItem::selectRaw('cart_id,sum(price) as total')
+            ->groupBy('cart_id')
+            ->having('cart_id', '=', $id)
+            ->get();
     }
 
 }

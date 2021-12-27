@@ -32,18 +32,18 @@ class CartItemService
         }
     }
 
-    public function editCart($id, $product_id, $quantity):bool
+    public function editCart($id, $product_id, $quantity): bool
     {
         $cartItem = $this->findCartItemId($id);
         return $this->cartItemRepository->edit($cartItem, $product_id, $quantity);
     }
 
-    public function findCartItemId(int $id): \App\Models\CartItem
+    public function findCartItemId(int $id): array
     {
         return $this->cartItemRepository->findCartItemId($id);
     }
 
-    public function deleteAllId(int $id): \App\Models\CartItem
+    public function deleteAllId(int $id): bool
     {
         return $this->cartItemRepository->deleteAllId($id);
     }
@@ -58,13 +58,13 @@ class CartItemService
         return $this->cartItemRepository->groupBy($id);
     }
 
-    public function delete(int $id)
+    public function delete(int $id, $idCart): bool
     {
-        $this->cartRepository->findOrFail($id);
+        $this->cartRepository->findOrFail($idCart);
         return $this->cartItemRepository->delete($id);
     }
 
-    public function findCartId(int $id)
+    public function findCartId(int $id): \Illuminate\Database\Eloquent\Collection
     {
         return $this->cartItemRepository->findCartId($id);
     }

@@ -3,9 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Cart;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Support\Js;
-use Psy\Util\Json;
+
 
 class CartRepository
 {
@@ -17,16 +15,16 @@ class CartRepository
 
     }
 
-    public function find(int $id)//error return type
+    public function find(int $id):array
     {
-        return Cart::find($id);
+        return Cart::find($id)->toarray();
     }
-    public function findOrFail(int $id):Cart
+    public function findOrFail(int $id):array
     {
-        return Cart::findOrFail($id);
+        return Cart::findOrFail($id)->toarray();
     }
 
-    public function delete(int $id):Cart
+    public function delete(int $id):bool
     {
         return Cart::where('id', $id)->delete();
     }
@@ -36,7 +34,7 @@ class CartRepository
         return Cart::all();
     }
 
-    public function updatePrice($id, $price):Cart
+    public function updatePrice($id, $price):bool
     {
         return Cart::where('id',$id)->update(['total_price' => $price]);
     }

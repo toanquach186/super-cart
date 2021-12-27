@@ -20,12 +20,13 @@ class CartService
         return $this->repository->create();
     }
 
-    public function find(int $id): \App\Models\Cart
+    public function find(int $id): array
     {
-        return $this->repository->find($id);
+        $find = $this->repository->find($id);
+        return $find->toarray();
     }
 
-    public function delete(int $id): \App\Models\Cart
+    public function delete(int $id): bool
     {
         $this->cartItemService->deleteAllId($id);
         return $this->repository->delete($id);
@@ -35,10 +36,12 @@ class CartService
     {
         return $this->repository->getAll();
     }
-    public function updatePrice(int $id, $price): \App\Models\Cart
+
+    public function updatePrice(int $id, $price): bool
     {
         return $this->repository->updatePrice($id, $price);
     }
+
     public function calculate($id): float|int
     {
         $cartItem = $this->cartItemService->findCartId($id);

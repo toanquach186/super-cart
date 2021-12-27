@@ -3,21 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Services\CartItemService;
-use App\Services\CartService;
-use App\Services\ProductService;
-use Illuminate\Http\Request;
 
 class CartItemController extends Controller
 {
     private CartItemService $cartItemService;
-    private ProductService $productService;
-    private CartService $cartService;
 
-    public function __construct(CartItemService $cartItemService, CartService $cartService, ProductService $productService)
+
+    public function __construct(CartItemService $cartItemService)
     {
         $this->cartItemService = $cartItemService;
-        $this->cartService = $cartService;
-        $this->productService = $productService;
+
     }
 
     /**
@@ -25,7 +20,7 @@ class CartItemController extends Controller
      *
      * @return array|\Illuminate\Database\Eloquent\Collection
      */
-    public function index()
+    public function index(): \Illuminate\Database\Eloquent\Collection|array
     {
         return $this->cartItemService->getAll();
     }
@@ -56,9 +51,9 @@ class CartItemController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $id): \Illuminate\Http\JsonResponse
+    public function destroy(int $id, $idCart): \Illuminate\Http\JsonResponse
     {
-        $this->cartItemService->delete($id);
+        $this->cartItemService->delete($id,$idCart);
         return response()->json([
             'deleted cart-item-id'=>$id
         ]);

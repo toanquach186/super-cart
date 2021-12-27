@@ -2,6 +2,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,13 +25,21 @@ Route::get('/', [ProductController::class, 'productList'])->name('products.list'
 Route::get('cart-all-item', [CartItemController::class, 'index'])->name('cart.list');
 Route::post('add-to-cart/{idCart}/{idProduct}/{quantity}', [CartItemController::class, 'addToCart'])->name('cart.add');
 Route::put('update-cart/{id}/{product_id}/{quantity}', [CartItemController::class, 'edit'])->name('cart.update');
-Route::delete('delete-from-cart/{id}',[CartItemController::class, 'destroy'])->name('cart.del');
-
+Route::delete('delete-from-cart/{id}/{idCart}',[CartItemController::class, 'destroy'])->name('cart.del');
 
 Route::delete('delete-cart/{id}', [CartController::class, 'removeCart'])->name('cart.remove');
 Route::get('view-cart', [CartController::class, 'cartList'])->name('cart.view');
 Route::Post('viewPrice/{id}', [CartController::class, 'submit'])->name('cart.viewP');
 Route::get('view-a-cart/{id}', [CartController::class, 'viewACart'])->name('cart.view1');
+
+Route::get('token', function (Request $request) {
+    $token = $request->session()->token();
+    $token = csrf_token();
+    return Response()->json(array("token"=>$token));
+});
+Route::post('/users/login', [UsersController::class, 'onLogin'])->name('user.login');
+Route::post('/users', [UsersController::class, 'onRegister'])->name('user.register');
+
 
 
 
