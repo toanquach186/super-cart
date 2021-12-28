@@ -25,16 +25,24 @@ class LoginController extends Controller
 
     public function onLogin(Request $request)
     {
-        $validator = $request->validate([
-            'email' => 'required|string|email',
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
             'password' => 'required|string',
         ]);
 
-        $user = User::where("email", $request->email)->get();
-        if (Auth::attempt($validator)) {
-            return Response()->json(array("success" => 1, "data" => $user[0]));
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
-        return response()->json(['error' => "Login không thành công!"], 401);
+
+        if (!$token = auth()->attempt($request->only('email', 'password'))) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return response()->json([
+            'access_token' => compact('token'),
+            'token_type' => 'bearer',
+            'user' => auth()->user()
+        ]);
     }
 
     public function onRegister(Request $request)
@@ -48,7 +56,6 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
-
         $postArray = [
             'name' => $request->name,
             'email' => $request->email,
@@ -67,5 +74,12 @@ class LoginController extends Controller
     {
         $id = Auth::id();
         return $id;
+    }
+
+    public function logout(): \Illuminate\Http\JsonResponse
+    {
+        auth()->logout();
+
+        return response()->json(['message' => 'User successfully signed out']);
     }
 }

@@ -37,16 +37,20 @@ Route::post('/add-cart', [CartController::class, 'createCart'])->name('products.
 
 
 Route::get('who', [LoginController::class, 'check'])->name('cart.check')->middleware('auth');
-
 Route::get('token', function (Request $request) {
     $token = $request->session()->token();
-    $token = csrf_token();
+    //$token = csrf_token();
     return Response()->json(array("token"=>$token));
 });
 Route::post('/users/login', [LoginController::class, 'onLogin'])->name('user.login');
 Route::post('/users', [LoginController::class, 'onRegister'])->name('user.register');
+Route::post('/users/logout', [LoginController::class, 'logout'])->name('user.register');
 
-Route::get('view-all-cart/{id}', [UserController::class,'viewAllCart'])->name('.user.viewAllCart');
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('user-info', 'UserController@getUserInfo');
+    Route::get('view-all-cart/{id}', [UserController::class,'viewAllCart'])->name('.user.viewAllCart');
+
+});
 
 
 
