@@ -19,7 +19,7 @@ class CartItemService
         $this->cartRepository = $cartRepository;
     }
 
-    public function addCart($idCart, $idProduct, $quantity): \App\Models\CartItem
+    public function addToCart($idCart, $idProduct, $quantity): \App\Models\CartItem //
     {
         $product = $this->productRepository->find($idProduct);
         $cart = $this->cartRepository->find($idCart);

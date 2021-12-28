@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
+use Ramsey\Collection\Collection;
 
 
 class CartRepository
@@ -18,9 +19,9 @@ class CartRepository
 
     }
 
-    public function find(int $id):array
+    public function find(int $id)/////////////////////////////////
     {
-        return Cart::find($id)->toarray();
+        return Cart::find($id);
     }
     public function findOrFail(int $id):array
     {
