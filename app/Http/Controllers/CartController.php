@@ -26,18 +26,18 @@ class CartController extends Controller
 
     public function submit(int $id): float|int
     {
-        $price = $this->service->calculate($id);
-        $this->service->updatePrice($id, $price);
-        return $price;
+        return $this->service->calculatePrice($id);
     }
 
     public function removeCart(int $id): string
     {
         $this->service->delete($id);
-        return "success";
+        return response()->json([
+            'deleted cart-item-id'=>$id
+        ]);
     }
 
-    public function createCart(): \App\Models\Cart
+    public function createCart(): array
     {
         return $this->service->createCart();
     }

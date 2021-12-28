@@ -2,6 +2,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,26 +27,26 @@ Route::get('/', [ProductController::class, 'productList'])->name('products.list'
 Route::get('cart-all-item', [CartItemController::class, 'index'])->name('cart.list');
 Route::post('add-to-cart/{idCart}/{idProduct}/{quantity}', [CartItemController::class, 'addToCart'])->name('cart.add');
 Route::put('update-cart/{id}/{product_id}/{quantity}', [CartItemController::class, 'edit'])->name('cart.update');
-Route::delete('delete-from-cart/{id}/{idCart}',[CartItemController::class, 'destroy'])->name('cart.del');
+Route::delete('delete-from-cart/{idCart}/{id}',[CartItemController::class, 'destroy'])->name('cart.del');
 
 Route::delete('delete-cart/{id}', [CartController::class, 'removeCart'])->name('cart.remove');
 Route::get('view-cart', [CartController::class, 'cartList'])->name('cart.view');
 Route::Post('viewPrice/{id}', [CartController::class, 'submit'])->name('cart.viewP');
 Route::get('view-a-cart/{id}', [CartController::class, 'viewACart'])->name('cart.view1');
+Route::post('/add-cart', [CartController::class, 'createCart'])->name('products.add');
 
-Route::get('who', [UserController::class, 'check'])->name('cart.check')->middleware('auth');
+
+Route::get('who', [LoginController::class, 'check'])->name('cart.check')->middleware('auth');
 
 Route::get('token', function (Request $request) {
     $token = $request->session()->token();
     $token = csrf_token();
     return Response()->json(array("token"=>$token));
 });
-Route::post('/users/login', [UserController::class, 'onLogin'])->name('user.login');
-Route::post('/users', [UserController::class, 'onRegister'])->name('user.register');
+Route::post('/users/login', [LoginController::class, 'onLogin'])->name('user.login');
+Route::post('/users', [LoginController::class, 'onRegister'])->name('user.register');
 
-Route::get('checks', function (){
-    return \Illuminate\Support\Facades\Auth::check();
-});
+Route::get('view-all-cart/{id}', [UserController::class,'viewAllCart'])->name('.user.viewAllCart');
 
 
 

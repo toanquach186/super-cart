@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Product;
 use App\Repositories\ProductRepository;
 
 class ProductService
@@ -14,7 +13,7 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
-    public function find(int $id):Product
+    public function find(int $id): array
     {
         return $this->productRepository->find($id);
     }

@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Services\CartItemService;
+use App\Services\CartService;
 
 class CartItemController extends Controller
 {
     private CartItemService $cartItemService;
+    private CartService $cartService;
 
 
-    public function __construct(CartItemService $cartItemService)
+    public function __construct(CartItemService $cartItemService, CartService $cartService)
     {
         $this->cartItemService = $cartItemService;
-
+        $this->cartService = $cartService;
     }
 
     /**
@@ -27,7 +29,9 @@ class CartItemController extends Controller
 
     public function addToCart($idCart, $idProduct, $quantity): \App\Models\CartItem
     {
-        return $this->cartItemService->addCart($idCart, $idProduct, $quantity);
+        $result = $this->cartItemService->addToCart($idCart, $idProduct, $quantity);
+        $this->cartService->calculatePrice($idCart);
+        return $result;
     }
 
     /**
@@ -51,7 +55,7 @@ class CartItemController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(int $id, $idCart): \Illuminate\Http\JsonResponse
+    public function destroy($idCart,int $id): \Illuminate\Http\JsonResponse
     {
         $this->cartItemService->delete($id,$idCart);
         return response()->json([

@@ -15,15 +15,14 @@ class CartService
         $this->cartItemService = $cartItemService;
     }
 
-    public function createCart(): \App\Models\Cart
+    public function createCart(): array
     {
         return $this->repository->create();
     }
 
     public function find(int $id): array
     {
-        $find = $this->repository->find($id);
-        return $find->toarray();
+        return $this->repository->find($id);
     }
 
     public function delete(int $id): bool
@@ -42,13 +41,14 @@ class CartService
         return $this->repository->updatePrice($id, $price);
     }
 
-    public function calculate($id): float|int
+    public function calculatePrice($id): float|int
     {
         $cartItem = $this->cartItemService->findCartId($id);
         $price = 0;
         foreach ($cartItem as $item) {
             $price += $item['price'] * $item['quantity'];
         }
+        $this->updatePrice($id, $price);
         return $price;
     }
 }

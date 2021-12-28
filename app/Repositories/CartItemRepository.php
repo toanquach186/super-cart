@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CartItemRepository
 {
-    function add($cart, $product, $quantity): CartItem
+    function add($cart, $product, $quantity):CartItem
     {
         return CartItem::create([
             'cart_id' => $cart['id'],
@@ -24,7 +24,7 @@ class CartItemRepository
             ->update(['product_id' => $product_id, 'quantity' => $quantity]);
     }
 
-    public function findCartItemId(int $id): array
+    public function findCartItemId(int $id):array
     {
         return CartItem::find($id)->toarray();
     }
