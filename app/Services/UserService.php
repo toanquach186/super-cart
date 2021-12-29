@@ -20,4 +20,10 @@ class UserService
     {
         return $this->cartRepository->viewAllCart($id);
     }
+
+    public function getUserInfo()
+    {
+        auth()->user();
+    }
+
 }

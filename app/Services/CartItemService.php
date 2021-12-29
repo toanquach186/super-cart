@@ -19,7 +19,7 @@ class CartItemService
         $this->cartRepository = $cartRepository;
     }
 
-    public function addToCart($idCart, $idProduct, $quantity): \App\Models\CartItem //
+    public function addToCart($idCart, $idProduct, $quantity): \App\Models\CartItem
     {
         $product = $this->productRepository->find($idProduct);
         $cart = $this->cartRepository->find($idCart);
@@ -27,8 +27,8 @@ class CartItemService
             return $this->cartItemRepository->add($cart, $product, $quantity);
         else {
             $this->cartRepository->create();
-            $cart2 = $this->cartRepository->find($idCart);
-            return $this->cartItemRepository->add($cart2, $product, $quantity);
+            $cartNew = $this->cartRepository->find($idCart);
+            return $this->cartItemRepository->add($cartNew, $product, $quantity);
         }
     }
 
@@ -43,9 +43,9 @@ class CartItemService
         return $this->cartItemRepository->findCartItemId($id);
     }
 
-    public function deleteAllId(int $id): bool
+    public function deleteAllItem(int $id): bool
     {
-        return $this->cartItemRepository->deleteAllId($id);
+        return $this->cartItemRepository->deleteAllItemId($id);
     }
 
     public function getAll(): \Illuminate\Database\Eloquent\Collection|array
@@ -53,14 +53,9 @@ class CartItemService
         return $this->cartItemRepository->getAll();
     }
 
-    public function groupBy(int $id)
+    public function delete(int $id): bool
     {
-        return $this->cartItemRepository->groupBy($id);
-    }
-
-    public function delete(int $id, $idCart): bool
-    {
-        $this->cartRepository->findOrFail($idCart);
+        //$this->cartRepository->findOrFail($idCart);
         return $this->cartItemRepository->delete($id);
     }
 

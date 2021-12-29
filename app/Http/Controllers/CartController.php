@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Services\CartItemService;
 use App\Services\CartService;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 
 
 class CartController extends Controller
@@ -47,4 +48,9 @@ class CartController extends Controller
         return $this->cartItemService->findCartId($id);
     }
 
+    public function createSes()
+    {
+        //$request->session()->push('new',$request->id);
+        return session()->all();
+    }
 }

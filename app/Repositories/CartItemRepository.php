@@ -34,7 +34,7 @@ class CartItemRepository
         return CartItem::where('cart_id', $id)->get();
     }
 
-    public function deleteAllId(int $id): bool
+    public function deleteAllItemId(int $id): bool
     {
         return CartItem::where('cart_id', $id)->delete();
     }
@@ -47,14 +47,6 @@ class CartItemRepository
     public function getAll(): \Illuminate\Database\Eloquent\Collection|array
     {
         return CartItem::all();
-    }
-
-    public function groupBy(int $id)
-    {
-        return CartItem::selectRaw('cart_id,sum(price) as total')
-            ->groupBy('cart_id')
-            ->having('cart_id', '=', $id)
-            ->get();
     }
 
 }

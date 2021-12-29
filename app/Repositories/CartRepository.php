@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
-use Ramsey\Collection\Collection;
 
 
 class CartRepository
@@ -12,11 +11,15 @@ class CartRepository
     function create():array
     {
         $id = Auth::id();
-        return Cart::create([
+
+        $cart = Cart::create([
             'user_id' => $id,
             'total_price' => 0
         ])->toarray();
-
+        if (session()->has('current_cart')) {
+            session()->put('current_cart',$cart['id']);
+        }else session()->push('current_cart',$cart['id']);
+        return $cart;
     }
 
     public function find(int $id)/////////////////////////////////

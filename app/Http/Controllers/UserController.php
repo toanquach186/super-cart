@@ -17,4 +17,10 @@ class UserController extends Controller
     {
         return $this->userService->viewAllCart($id);
     }
+
+    public function getUserInfo(): \Illuminate\Database\Eloquent\Collection|array
+    {
+        return $this->userService->viewAllCart();
+    }
+
 }

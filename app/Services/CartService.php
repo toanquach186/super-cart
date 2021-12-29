@@ -27,7 +27,7 @@ class CartService
 
     public function delete(int $id): bool
     {
-        $this->cartItemService->deleteAllId($id);
+        $this->cartItemService->deleteAllItem($id);
         return $this->repository->delete($id);
     }
 

@@ -1,29 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services;
 
-use App\Models\User;
+use App\Repositories\AuthRepository;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-
-class LoginController extends Controller
+class AuthService
 {
+    private AuthRepository $authRepository;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct(AuthRepository $authRepository)
     {
-        //
+        $this->authRepository = $authRepository;
+        auth()->setDefaultDriver('api');
     }
 
-    public function onLogin(Request $request)
+    public function Login($request): \Illuminate\Http\JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -45,7 +39,7 @@ class LoginController extends Controller
         ]);
     }
 
-    public function onRegister(Request $request)
+    public function register($request): \Illuminate\Http\JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -64,22 +58,13 @@ class LoginController extends Controller
             'created_at' => Carbon::now('Asia/Ho_Chi_Minh'),
             'updated_at' => Carbon::now('Asia/Ho_Chi_Minh'),
         ];
-
-        $user = User::create($postArray);
+        $this->authRepository->createAccount($postArray);
         return Response()->json(array("success" => 1, "data" => $postArray));
-
-    }
-
-    public function check(): int|string|null
-    {
-        $id = Auth::id();
-        return $id;
     }
 
     public function logout(): \Illuminate\Http\JsonResponse
     {
         auth()->logout();
-
         return response()->json(['message' => 'User successfully signed out']);
     }
 }

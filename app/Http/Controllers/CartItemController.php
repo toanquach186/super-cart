@@ -57,7 +57,7 @@ class CartItemController extends Controller
      */
     public function destroy($idCart,int $id): \Illuminate\Http\JsonResponse
     {
-        $this->cartItemService->delete($id,$idCart);
+        $this->cartItemService->delete($id);
         return response()->json([
             'deleted cart-item-id'=>$id
         ]);
