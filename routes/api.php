@@ -50,7 +50,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 });
 
-Route::post('/add-cart-ses', [CartController::class, 'createSes'])->name('products.add');
+Route::post('/add-cart-ses', [CartController::class, 'checkSession'])->name('products.add');
 
 
 

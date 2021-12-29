@@ -48,9 +48,13 @@ class CartController extends Controller
         return $this->cartItemService->findCartId($id);
     }
 
-    public function createSes()
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function checkSession()
     {
         //$request->session()->push('new',$request->id);
-        return session()->all();
+        return session()->get('current_cart');
     }
 }
