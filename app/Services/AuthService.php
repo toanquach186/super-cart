@@ -14,7 +14,7 @@ class AuthService
     public function __construct(AuthRepository $authRepository)
     {
         $this->authRepository = $authRepository;
-        auth()->setDefaultDriver('api');
+        // auth()->setDefaultDriver('api');
     }
 
     public function Login($request): \Illuminate\Http\JsonResponse
