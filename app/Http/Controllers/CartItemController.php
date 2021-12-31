@@ -27,10 +27,10 @@ class CartItemController extends Controller
         return $this->cartItemService->getAll();
     }
 
-    public function addToCart($idCart, $idProduct, $quantity): \App\Models\CartItem
+    public function addToCart($idProduct, $quantity): \App\Models\CartItem
     {
-        $result = $this->cartItemService->addToCart($idCart, $idProduct, $quantity);
-        $this->cartService->calculatePrice($idCart);
+        $result = $this->cartItemService->addToCart($idProduct, $quantity);
+        $this->cartService->calculatePrice();
         return $result;
     }
 
@@ -43,6 +43,7 @@ class CartItemController extends Controller
     public function edit(int $id, int $product_id, int $quantity): \Illuminate\Http\JsonResponse
     {
         $this->cartItemService->editCart($id, $product_id, $quantity);
+        $this->cartService->calculatePrice();
         return response()->json([
             'product_id' => $product_id,
             'quantity' => $quantity
@@ -55,9 +56,10 @@ class CartItemController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($idCart,int $id): \Illuminate\Http\JsonResponse
+    public function destroy(int $id): \Illuminate\Http\JsonResponse
     {
         $this->cartItemService->delete($id);
+        $this->cartService->calculatePrice();
         return response()->json([
             'deleted cart-item-id'=>$id
         ]);

@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CartItemRepository
 {
-    function add($cart, $product, $quantity):CartItem
+    function add($idCart, $product, $quantity):CartItem
     {
         return CartItem::create([
-            'cart_id' => $cart['id'],
+            'cart_id' => $idCart,
             'product_id' => $product['id'],
             'quantity' => $quantity,
             'price' => $product['price']
@@ -29,9 +29,9 @@ class CartItemRepository
         return CartItem::find($id)->toarray();
     }
 
-    public function findCartId(int $id): Collection
+    public function findCartId($id):array
     {
-        return CartItem::where('cart_id', $id)->get();
+        return CartItem::where('cart_id', $id)->get()->toArray();
     }
 
     public function deleteAllItemId(int $id): bool

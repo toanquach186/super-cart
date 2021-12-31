@@ -38,9 +38,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('view-all-cart/{id}', [UserController::class,'viewAllCart'])->name('.user.viewAllCart');
 
     Route::get('cart-all-item', [CartItemController::class, 'index'])->name('cart.list');
-    Route::post('add-to-cart/{idCart}/{idProduct}/{quantity}', [CartItemController::class, 'addToCart'])->name('cart.add');
+    Route::post('add-to-cart/{idProduct}/{quantity}', [CartItemController::class, 'addToCart'])->name('cart.add');
     Route::put('update-cart/{id}/{product_id}/{quantity}', [CartItemController::class, 'edit'])->name('cart.update');
-    Route::delete('delete-from-cart/{idCart}/{id}',[CartItemController::class, 'destroy'])->name('cart.del');
+    Route::delete('delete-from-cart/{id}',[CartItemController::class, 'destroy'])->name('cart.del');
 
     Route::delete('delete-cart/{id}', [CartController::class, 'removeCart'])->name('cart.remove');
     Route::get('view-cart', [CartController::class, 'cartList'])->name('cart.view');

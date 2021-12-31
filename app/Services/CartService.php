@@ -36,19 +36,20 @@ class CartService
         return $this->repository->getAll();
     }
 
-    public function updatePrice(int $id, $price): bool
+    public function updatePrice($id, $price): bool
     {
         return $this->repository->updatePrice($id, $price);
     }
 
-    public function calculatePrice($id): float|int
+    public function calculatePrice(): float|int
     {
-        $cartItem = $this->cartItemService->findCartId($id);
+        $idCart = session()->get('current_cart');
+        $cartItem = $this->cartItemService->findCartId($idCart);
         $price = 0;
         foreach ($cartItem as $item) {
             $price += $item['price'] * $item['quantity'];
         }
-        $this->updatePrice($id, $price);
+        $this->updatePrice($idCart, $price);
         return $price;
     }
 }

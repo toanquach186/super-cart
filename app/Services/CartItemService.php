@@ -19,16 +19,15 @@ class CartItemService
         $this->cartRepository = $cartRepository;
     }
 
-    public function addToCart($idCart, $idProduct, $quantity): \App\Models\CartItem
+    public function addToCart($idProduct, $quantity): \App\Models\CartItem
     {
+        $idCart = (integer)session()->get('current_cart');
         $product = $this->productRepository->find($idProduct);
-        $cart = $this->cartRepository->find($idCart);
-        if ($cart != null)
-            return $this->cartItemRepository->add($cart, $product, $quantity);
+        if ($idCart != null)
+            return $this->cartItemRepository->add($idCart, $product, $quantity);
         else {
             $this->cartRepository->create();
-            $cartNew = $this->cartRepository->find($idCart);
-            return $this->cartItemRepository->add($cartNew, $product, $quantity);
+            return $this->cartItemRepository->add($idCart, $product, $quantity);
         }
     }
 
@@ -59,7 +58,7 @@ class CartItemService
         return $this->cartItemRepository->delete($id);
     }
 
-    public function findCartId(int $id): \Illuminate\Database\Eloquent\Collection
+    public function findCartId($id):array
     {
         return $this->cartItemRepository->findCartId($id);
     }

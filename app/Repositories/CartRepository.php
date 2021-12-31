@@ -17,8 +17,8 @@ class CartRepository
             'total_price' => 0
         ])->toarray();
         if (session()->has('current_cart')) {
-            session()->put('current_cart',$cart['id']);
-        }else session()->push('current_cart',$cart['id']);
+            session()->put('current_cart',(int)$cart['id']);
+        }else session()->push('current_cart',(int)$cart['id']);
         return $cart;
     }
 

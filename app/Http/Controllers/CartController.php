@@ -55,6 +55,6 @@ class CartController extends Controller
     public function checkSession()
     {
         //$request->session()->push('new',$request->id);
-        return session()->get('current_cart');
+        return session()->all();
     }
 }
