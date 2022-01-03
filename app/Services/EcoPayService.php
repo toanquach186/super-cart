@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
+use App\Interfaces\IPayment;
 use App\Repositories\CartRepository;
 use App\Repositories\EcoPayRepository;
 
-class EcoPayService
+class EcoPayService implements IPayment
 {
     private EcoPayRepository $ecoPayRepository;
     private CartRepository $cartRepository;
@@ -16,7 +17,11 @@ class EcoPayService
         $this->cartRepository = $cartRepository;
     }
 
-    public function pay()
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    public function pay(): array
     {
         $idCart = session()->get('current_cart');
         $cart = $this->cartRepository->findOrFail($idCart);

@@ -7,7 +7,7 @@ use App\Models\Payment;
 class EcoPayRepository
 {
 
-    public function add($Cart)
+    public function add($Cart):array
     {
         return Payment::create([
             'cart_id' => $Cart['id'],
@@ -15,6 +15,6 @@ class EcoPayRepository
             'total_pay' => $Cart['total_price'],
             'voucher'=> 'giam 20k',
             'status' => 1,
-        ]);
+        ])->toArray();
     }
 }

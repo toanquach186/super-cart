@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Interfaces\IPayment;
+use App\Services\EcoPayService;
+use App\Services\HappyPayService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +16,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(IPayment::class, EcoPayService::class);
+        $this->app->bind(IPayment::class, HappyPayService::class);
     }
 
     /**
