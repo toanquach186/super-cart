@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\IPayment;
+use App\Services\EcoPayService;
 
 class EcoPayController extends Controller implements IPayment
 {
-    private
+    private EcoPayService $ecoPayService;
+
+    public function __construct(EcoPayService $ecoPayService)
+    {
+        $this->ecoPayService = $ecoPayService;
+    }
 
     public function pay()
     {
-        // TODO: Implement pay() method.
+        return $this->ecoPayService->pay();
     }
 }

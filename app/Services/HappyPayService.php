@@ -8,20 +8,20 @@ use App\Repositories\HappyPayRepository;
 
 class HappyPayService implements IPayment
 {
-    private HappyPayRepository $paymentRepository;
+    private HappyPayRepository $happyPayRepository;
     private CartRepository $cartRepository;
 
     public function __construct(HappyPayRepository $paymentRepository, CartRepository $cartRepository)
     {
-        $this->paymentRepository = $paymentRepository;
+        $this->happyPayRepository = $paymentRepository;
         $this->cartRepository = $cartRepository;
     }
 
-    public function pay()
+    public function pay(): \App\Models\Payment
     {
         $idCart = session()->get('current_cart');
         $cart = $this->cartRepository->findOrFail($idCart);
-        $this->paymentRepository->add($cart);
+        return $this->happyPayRepository->add($cart);
     }
     public function edit(){
 

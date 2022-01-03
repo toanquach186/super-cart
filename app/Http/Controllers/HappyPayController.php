@@ -17,7 +17,7 @@ class HappyPayController extends Controller implements IPayment
 
     }
 
-    public function pay()
+    public function pay(): \App\Models\Payment
     {
         return $this->happyPayService->pay();
     }

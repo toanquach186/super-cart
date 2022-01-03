@@ -43,7 +43,7 @@ class CartController extends Controller
         return $this->service->createCart();
     }
 
-    public function viewACart($id): \Illuminate\Database\Eloquent\Collection
+    public function viewACart($id): array
     {
         return $this->cartItemService->findCartId($id);
     }

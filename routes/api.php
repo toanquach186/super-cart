@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Middleware\Authenticate;
+use App\Http\Controllers\HappyPayController;
+use App\Http\Controllers\EcoPayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,9 +50,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('view-a-cart/{id}', [CartController::class, 'viewACart'])->name('cart.view1');
     Route::post('/add-cart', [CartController::class, 'createCart'])->name('products.add');
 
+    Route::post('/checkout/HappyPay', [HappyPayController::class, 'pay'])->name('products.add');
+    Route::post('/checkout/EcoPay', [EcoPayController::class, 'pay'])->name('products.add');
 });
 
-Route::post('/add-cart-ses', [CartController::class, 'checkSession'])->name('products.add');
+Route::post('/who', [CartController::class, 'checkSession'])->name('products.add');
 
 
 

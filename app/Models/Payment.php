@@ -9,11 +9,11 @@ class Payment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'product_id',
         'voucher',
         'ship_price',
         'method',
         'total_pay',
         'status',
+        'cart_id',
     ];
 }
