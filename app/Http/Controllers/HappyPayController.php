@@ -5,29 +5,20 @@ namespace App\Http\Controllers;
 use App\Interfaces\IPayment;
 use App\Services\HappyPayService;
 
-class HappyPayController extends Controller
+class HappyPayController extends Controller implements IPayment
 {
 
-    private IPayment $IPayment;
+    private HappyPayService $happyPayService;
 
-    public function __construct(IPayment $IPayment)
+    public function __construct(HappyPayService $happyPayService)
     {
 
-        $this->IPayment = $IPayment;
-    }
-
-    public function payment($method)
-    {
-        return $this->IPayment->pay($method);
-    }
-
-    public function edit()
-    {
+        $this->happyPayService = $happyPayService;
 
     }
 
-    public function destroy()
+    public function pay()
     {
-
+        return $this->happyPayService->pay();
     }
 }

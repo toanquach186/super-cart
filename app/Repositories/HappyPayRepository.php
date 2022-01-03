@@ -7,13 +7,13 @@ use App\Models\Payment;
 
 class HappyPayRepository
 {
-    function add($Cart,$method): Payment
+    function add($Cart): Payment
     {
         return Payment::create([
-            'cart_id' => $Cart,
-            'method' => $method,
+            'cart_id' => $Cart['id'],
+            'method' => 'HappyPay',
             'total_pay' => $Cart['total_price'],
-            'status' => 0,
+            'status' => 1,
         ]);
     }
 

@@ -3,5 +3,5 @@
 namespace App\Interfaces;
 interface IPayment
 {
-    public function pay($method);
+    public function pay();
 }

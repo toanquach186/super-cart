@@ -17,11 +17,11 @@ class HappyPayService implements IPayment
         $this->cartRepository = $cartRepository;
     }
 
-    public function pay($method)
+    public function pay()
     {
         $idCart = session()->get('current_cart');
         $cart = $this->cartRepository->findOrFail($idCart);
-        $this->paymentRepository->add($cart, $method);
+        $this->paymentRepository->add($cart);
     }
     public function edit(){
 
