@@ -50,7 +50,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('view-a-cart/{id}', [CartController::class, 'viewACart'])->name('cart.view1');
     Route::post('/add-cart', [CartController::class, 'createCart'])->name('products.add');
 
-    Route::post('/checkout/{method}', [PaymentController::class, 'pay'])->name('products.add');
+    Route::post('/checkout', [PaymentController::class, 'pay'])->name('products.add');
     //Route::post('/checkout/EcoPay', [EcoPayController::class, 'pay'])->name('products.add');
 });
 
